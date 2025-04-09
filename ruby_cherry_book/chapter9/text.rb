@@ -8,3 +8,12 @@
 #         from /home/taku_enginner/.rbenv/versions/3.0.1/lib/ruby/gems/3.0.0/gems/irb-1.3.5/exe/irb:11:in `<top (required)>'
 #         from /home/taku_enginner/.rbenv/versions/3.0.1/bin/irb:23:in `load'
 #         from /home/taku_enginner/.rbenv/versions/3.0.1/bin/irb:23:in `<main>'
+
+puts "Start."
+1 + "10"
+# 上の行で例外が発生するため、ここから下は実行されない
+puts "End."
+
+# Start.
+# text.rb:13:in `+': String can't be coerced into Integer (TypeError)
+#         from text.rb:13:in `<main>'
