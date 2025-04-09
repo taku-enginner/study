@@ -1,67 +1,22 @@
-# 例外クラスの継承関係とrescue節を各順番に注意しないと、永遠に実行されないrescue節を作ることになる。
+# # 例外発生時にやり直したいときはretry
+# begin
+#   # 例外が発生するかもしれない処理  
+# rescue
+#   retry # 処理をやり直す  
+# end
 
-# 間違った例外処理の例
+# リトライするときは回数上限を意識する
+retry_count = 0
 begin
-  # NoMethodErrorを発生させる
-  "abc".foo
-rescue NameError
-  # NoMethodErrorはここで補足される
-  puts "NameErrorです"
-rescue NoMethodError
-  # このrescue節は永遠に実行されない
-  puts "NoMethodErrorです"
-end
-
-# 正しい例
-begin
-  # NoMethodErrorを発生させる
-  "abc".foo
-rescue NoMethodError
-  # このrescue節は永遠に実行されない
-  puts "NoMethodErrorです"
-rescue NameError
-  # NoMethodErrorはここで補足される
-  puts "NameErrorです"
-end
-
-# 正しい例(NameError発生)
-begin
-  # NameErrorを発生させる
-  Foo.new
-rescue NoMethodError
-  # このrescue節は永遠に実行されない
-  puts "NoMethodErrorです"
-rescue NameError
-  # NoMethodErrorはここで補足される
-  puts "NameErrorです"
-end
-
-
-# 最後に書くとしたらStandardError
-begin
-  # NameErrorを発生させる
+  puts "処理を開始します"
+  # わざと例外を発生させる
   1 / 0
-rescue NoMethodError
-  # このrescue節は永遠に実行されない
-  puts "NoMethodErrorです"
-rescue NameError
-  # NoMethodErrorはここで補足される
-  puts "NameErrorです"
-rescue StandardError
-  puts "その他のエラーです"
-end
-
-
-# StandardErrorとそのサブクラスを補足するなら、そもそもクラスを指定する必要が無いので、省略するのがシンプル
-begin
-  # NameErrorを発生させる
-  1 / 0
-rescue NoMethodError
-  # このrescue節は永遠に実行されない
-  puts "NoMethodErrorです"
-rescue NameError
-  # NoMethodErrorはここで補足される
-  puts "NameErrorです"
-rescue # StandardErrorを指定しない
-  puts "その他のエラーです"
+rescue
+  retry_count += 1
+  if retry_count <= 3
+    puts "retryします。（#{retry_count}回目）"
+    retry
+  else
+    puts "retryに失敗しました。"
+  end
 end
