@@ -1,9 +1,7 @@
-# パターンマッチのコード例。case文によく似ているがwhenではなくinを使用している点に注目
-ans = case [0,1,2]
-  in[n,1,2]
-    "n = #{n}"
-  else
-    "not matched"
-end
+country = "italy"
 
-puts ans
+greeting = unless country == "japan" then "こんにちはではないよ" end
+puts greeting
+
+puts __LINE__
+puts __FILE__
