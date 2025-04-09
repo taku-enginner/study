@@ -1,11 +1,9 @@
-# when節の後ろにはthenを入れることもできる
-# thenを入れるとwhen節と条件が真だった場合の処理を1行で書けるが、使用頻度は高くない
-country = "italy"
-greeting = case country
-when "japan" then "こんにちは"
-when "us" then "hello"
-when "italy" then "ciao"
-else "???"
+# パターンマッチのコード例。case文によく似ているがwhenではなくinを使用している点に注目
+ans = case [0,1,2]
+  in[n,1,2]
+    "n = #{n}"
+  else
+    "not matched"
 end
 
-puts greeting
+puts ans
