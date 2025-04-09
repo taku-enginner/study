@@ -1,62 +1,24 @@
-# 想定外のデータが来たときに意図的に例外を発生させる
+# 例外処理のベストプラクティス
 
-# def currency_of(country)
-#   case country
-#   when :japan
-#     "yen"
-#   when :us
-#     "dollar"
-#   when :india
-#     "rupee"
-#   else
-#     # 意図的に例外を発生させる
-#     raise "無効な国名です。#{country}" # 文字列がエラーメッセージになる
-#   end
-# end
-
-# currency_of(:japan)
-# currency_of(:italy)
-
-# [taku_enginner@DESKTOP-VI1F9G6:chapter9(master)] $ ruby text.rb 
-# text.rb:13:in `currency_of': 無効な国名です。italy (RuntimeError)
-#         from text.rb:18:in `<main>'
-
-# raiseメソッドに文字列だけを渡したときはRuntimeErrorクラスの例外が発生する。
-# 第一引数に例外クラス、第二引数にエラーメッセージを渡すと、RuntimeErrorクラス以外の例外クラスを発生させることができる。
-# def currency_of(country)
-#   case country
-#   when :japan
-#     "yen"
-#   when :us
-#     "dollar"
-#   when :india
-#     "rupee"
-#   else
-#     # 意図的に例外を発生させる
-#     raise ArgumentError, "無効な国名です。#{country}" # 文字列がエラーメッセージになる
-#   end
-# end
-
-# currency_of(:japan)
-# currency_of(:italy)
+# 安易にrescueを使わない
+# ・rescueすべき例外の方が少ない。
+# railsのようなWebアプリケーションフレームワークでは、例外発生時の共通処理が最初から組み込まれている。
+# （エラーメッセージやバックトレースをログに書き込み、ユーザに対してはエラーの発生を画面上で通知）
+# 初心者向けの考え方
+#   ✕　例外が発生したらrescueで補足すればいいんだな
+# 　〇　例外が発生したら即座に異常終了させよう　or　フレームワークの共通処理に全部丸投げしよう
 
 
-# raiseメソッドに例外クラスのインスタンスを渡す方法もある
-def currency_of(country)
-  case country
-  when :japan
-    "yen"
-  when :us
-    "dollar"
-  when :india
-    "rupee"
-  else
-    # raiseメソッドに例外クラスのインスタンスを渡す
-    raise ArgumentError.new("無効な国名です。#{country}")  # 文字列がエラーメッセージになる
-  end
+# rescueしたら情報を残す
+# 100人のユーザにメールを一斉送信する処理で、運悪く1人目のユーザがおかしなメールアドレスを登録していたら、1人目のせいで残り99人にはメールが送信されなくなってしまう。これは良くない。
+# こういうケースは例外をrescueして、最後のユーザまでメール送信を続行する方がよい。
+# このケースでもあとで原因調査できるよう、例外時の状況を確実に記録に残す！
+# 最低でも、例外の｛クラス名、エラーメッセージ、バックトレース｝の3つは残すべき。
+# full_messageメソッドを使うと一度に取り出せる。
+
+begin
+  # 意図的に例外を発生させる
+  1 / 0
+rescue => e
+  puts "エラー情報です：#{e.full_message}"
 end
-
-currency_of(:japan)
-currency_of(:italy)
-
-# メッセージ省略はデバッグがしにくくなるため通常は避けるべき。
