@@ -1,47 +1,31 @@
-s = ""
-# (empty?は文字列が空文字だったときにtrueを返し、それ以外はfalseを返すメソッド)
-if s.empty? == true
-  puts "空文字です"
-end
+# 1つのオブジェクトや式を複数の値と比較する場合
+# elsifを重ねるより、caseで書いた方がシンプル。
 
-# こう書く
-if s.empty?
-  puts "空文字です"
-end
+country = "italy"
 
-n = 123
-# (zero?は数値が0だったときにtrueを返し、それ以外はfalseを返すメソッド)
-if n.zero? == false
-  puts "ゼロではありません"
-end
+# if文を使う場合
+greeting = 
+  if country == "japan"
+    "こんにちは"
+  elsif country == "us"
+    "hello"
+  elsif country == "italy"
+    "ciao"
+  else
+    "???"
+  end
 
-# こう書く
-if !n.zero?
-  puts "ゼロではありません"
-end
+puts greeting
 
-# rubyはnilを偽として扱うので、==nilや!=nilを書くこともあまりない。
-# ただし、「対象データが未存在である」ことを明示するため、nil?メソッドが使われることはある
-user = nil
-
-# こうではなく...
-if user == nil
-  puts "nilです"
+# case文を使う場合
+greeting = case country
+when "japan"
+  "こんにちは"
+when "us"
+  "hello"
+when "italy"
+  "ciao"
+else
+  "???"
 end
-
-# こう書く
-if !user
-  puts "nilです"
-end
-
-# またはこう
-if user.nil?
-  puts "nilです"
-end
-
-# trueまたはfalseそのものであることを判定したいときが稀にある
-some_value = true
-# 1やOKではなく、trueであるかどうかを判定したい
-if some_value == true
-  "trueそのものです"
-end
+puts greeting
