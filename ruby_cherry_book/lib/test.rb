@@ -1,31 +1,11 @@
-# case文でwhen説に複数の値を指定し、どれかに一致すれば処理を実行する
-
-country = "アメリカ"
-greeting = case country
-when "japan", "日本"
-  "こんにちは"
-when "us", "アメリカ"
-  "hello"
-when "italy", "イタリア"
-  "ciao"
-else
-  "???"
-end
-
-puts greeting
-
-# case節の式を省略すると、条件式が最初に真になるwhen節の処理が実行される
+# when節の後ろにはthenを入れることもできる
+# thenを入れるとwhen節と条件が真だった場合の処理を1行で書けるが、使用頻度は高くない
 country = "italy"
-
-# case節の式を省略し、when節の条件式を順に評価するcase文
-greeting = case
-when country == "japan"
-  "こんにちは"
-when country == "us"
-  "hello"
-when country == "italy"
-  "ciao"
-else
-  "???"
+greeting = case country
+when "japan" then "こんにちは"
+when "us" then "hello"
+when "italy" then "ciao"
+else "???"
 end
+
 puts greeting
